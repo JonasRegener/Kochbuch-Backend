@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Kochbuch_Backend.Models
+namespace Kochbuch_Backend.Data
 {
     public class Reciepe
     {
@@ -10,6 +10,6 @@ namespace Kochbuch_Backend.Models
         public int DurationMinutes { get; set; } = 0;
 
         public virtual IList<Ingredient> Ingredients { get; set; }
-          
+
     }
 }

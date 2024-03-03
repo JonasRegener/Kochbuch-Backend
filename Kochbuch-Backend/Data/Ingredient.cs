@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Kochbuch_Backend.Models
+namespace Kochbuch_Backend.Data
 {
     public class Ingredient
     {
-        public int Id {  get; set; }
+        public int Id { get; set; }
 
-        public string Name { get; set; }    
+        public string Name { get; set; }
         public string ShortName { get; set; }
 
         [ForeignKey(nameof(ReciepeId))]

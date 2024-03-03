@@ -1,4 +1,7 @@
+using Kochbuch_Backend.Configurations;
+using Kochbuch_Backend.Contracts;
 using Kochbuch_Backend.Data;
+using Kochbuch_Backend.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +24,10 @@ builder.Services.AddCors(options => {
     options.AddPolicy("AllowAll", b => b.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 }
 );
+builder.Services.AddAutoMapper(typeof(MapperConfig));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IReciepesRepository, ReciepesRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Kochbuch_Backend.Data;
-using Kochbuch_Backend.Models;
+using Kochbuch_Backend.Models.Reciepe;
+using AutoMapper;
+using Kochbuch_Backend.Contracts;
+
 
 namespace Kochbuch_Backend.Controllers
 {
@@ -14,53 +17,70 @@ namespace Kochbuch_Backend.Controllers
     [ApiController]
     public class ReciepesController : ControllerBase
     {
-        private readonly KochbuchDbContext _context;
+        private readonly IReciepesRepository _reciepesRepository;
+        private readonly IMapper _mapper;
 
-        public ReciepesController(KochbuchDbContext context)
+        public ReciepesController(IMapper mapper, IReciepesRepository reciepesRepository)
         {
-            _context = context;
+            this._mapper = mapper;
+            this._reciepesRepository = reciepesRepository;   
         }
 
         // GET: api/Reciepes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reciepe>>> GetReciepes()
+        public async Task<ActionResult<IEnumerable<GetReciepeDto>>> GetReciepes()
         {
-            return await _context.Reciepes.ToListAsync();
+            var reciepes = await _reciepesRepository.GetAllAsync();
+            var records = _mapper.Map<List<GetReciepeDto>>(reciepes);
+            return Ok(records);
+ 
         }
 
         // GET: api/Reciepes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Reciepe>> GetReciepe(int id)
+        public  async Task<ActionResult<ReciepeDetailsDto>> GetReciepe(int id)
         {
-            var reciepe = await _context.Reciepes.FindAsync(id);
+            var reciepe = await _reciepesRepository.GetDetails(id);
 
             if (reciepe == null)
             {
                 return NotFound();
             }
 
-            return reciepe;
+            var reciepeDetailDto = _mapper.Map<ReciepeDetailsDto>(reciepe);
+
+            return Ok(reciepeDetailDto);
         }
 
         // PUT: api/Reciepes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReciepe(int id, Reciepe reciepe)
+        public async Task<IActionResult> PutReciepe(int id, UpdateReciepeDto updateReciepeDto)
         {
-            if (id != reciepe.Id)
+            if (id != updateReciepeDto.Id)
             {
-                return BadRequest();
+                return BadRequest("Invalid Reciepe Id");
             }
 
-            _context.Entry(reciepe).State = EntityState.Modified;
+           /// _context.Entry(reciepe).State = EntityState.Modified;
+           var reciepe = _reciepesRepository.GetAsync(id);  
+
+
+            if(reciepe == null) 
+            { 
+                return NotFound(); 
+            }
+
+           await _mapper.Map(updateReciepeDto, reciepe);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _reciepesRepository.UpdateAsync(reciepe);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ReciepeExists(id))
+                bool awaitBool = await ReciepeExists(id);
+                if (!awaitBool)
                 {
                     return NotFound();
                 }
@@ -76,11 +96,12 @@ namespace Kochbuch_Backend.Controllers
         // POST: api/Reciepes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Reciepe>> PostReciepe(Reciepe reciepe)
+        public async Task<ActionResult<Reciepe>> PostReciepe(CreateReciepeDto reciepeDto)
         {
-            _context.Reciepes.Add(reciepe);
-            await _context.SaveChangesAsync();
+           
+            var reciepe = _mapper.Map<Reciepe>(reciepeDto);
 
+            await _reciepesRepository.AddAsync(reciepe);
             return CreatedAtAction("GetReciepe", new { id = reciepe.Id }, reciepe);
         }
 
@@ -88,21 +109,20 @@ namespace Kochbuch_Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReciepe(int id)
         {
-            var reciepe = await _context.Reciepes.FindAsync(id);
+            var reciepe = await _reciepesRepository.GetAsync(id);
             if (reciepe == null)
             {
                 return NotFound();
             }
 
-            _context.Reciepes.Remove(reciepe);
-            await _context.SaveChangesAsync();
+            await _reciepesRepository.DeleteAsync(id);
 
             return NoContent();
         }
 
-        private bool ReciepeExists(int id)
+        private async Task<bool> ReciepeExists(int id)
         {
-            return _context.Reciepes.Any(e => e.Id == id);
+            return await _reciepesRepository.Exisits(id);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Kochbuch_Backend.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Kochbuch_Backend.Data
 {
