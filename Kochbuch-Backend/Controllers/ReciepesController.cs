@@ -53,7 +53,7 @@ namespace Kochbuch_Backend.Controllers
         }
 
         // PUT: api/Reciepes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754 -- erledigt
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReciepe(int id, UpdateReciepeDto updateReciepeDto)
         {
@@ -63,7 +63,7 @@ namespace Kochbuch_Backend.Controllers
             }
 
            /// _context.Entry(reciepe).State = EntityState.Modified;
-           var reciepe = _reciepesRepository.GetAsync(id);  
+           var reciepe = await _reciepesRepository.GetAsync(id);  
 
 
             if(reciepe == null) 
@@ -71,11 +71,13 @@ namespace Kochbuch_Backend.Controllers
                 return NotFound(); 
             }
 
-           await _mapper.Map(updateReciepeDto, reciepe);
+           _mapper.Map(updateReciepeDto, reciepe);
 
             try
             {
+                
                 await _reciepesRepository.UpdateAsync(reciepe);
+                
             }
             catch (DbUpdateConcurrencyException)
             {

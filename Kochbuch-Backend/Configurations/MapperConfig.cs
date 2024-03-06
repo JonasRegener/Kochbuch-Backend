@@ -13,8 +13,9 @@ namespace Kochbuch_Backend.Configurations
             CreateMap<Reciepe, GetReciepeDto>().ReverseMap();
             CreateMap<Reciepe, ReciepeDetailsDto>().ReverseMap();
             CreateMap<Reciepe, UpdateReciepeDto>().ReverseMap();
+
             CreateMap<Ingredient, CreateReciepeDto>().ReverseMap();
-            CreateMap<Ingredient, IngredientDto>().ReverseMap();
+            CreateMap<Ingredient, UpdateIngredientDto>().ReverseMap();
         }
     }
 }

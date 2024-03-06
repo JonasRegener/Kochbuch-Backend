@@ -9,6 +9,7 @@
         Task DeleteAsync(int id);   
 
         Task UpdateAsync(T entity);
+
         Task<bool> Exisits(int id); 
     }
 }

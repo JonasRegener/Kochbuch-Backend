@@ -27,7 +27,7 @@ builder.Services.AddCors(options => {
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IReciepesRepository, ReciepesRepository>();
-
+builder.Services.AddScoped<IIngredientsRepository, IngrendientsRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
