@@ -6,10 +6,13 @@ namespace Kochbuch_Backend.Models.Ingredient
     {
         [Required]
         public string Name { get; set; }
-        [Required]
-        public string ShortName { get; set; }
 
         public int ReciepeId { get; set; }
+
+        public int Quantity { get; set; } 
+
+        public string Measurement { get; set; } 
+
 
     }
 
