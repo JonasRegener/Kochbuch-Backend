@@ -8,7 +8,7 @@ namespace Kochbuch_Backend.Models.Reciepe
 
         public List<IngredientDto> Ingredients { get; set; }
 
-        public int Duration { get; set; }
+        public int DurationMinutes { get; set; }
 
         public string ImagePath { get; set; }
 

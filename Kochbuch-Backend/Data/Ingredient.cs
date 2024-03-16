@@ -7,7 +7,9 @@ namespace Kochbuch_Backend.Data
         public int Id { get; set; }
 
         public string Name { get; set; }
-        public string ShortName { get; set; }
+        public string Measurement { get; set; }
+
+        public int Quantity { get; set; }
 
         [ForeignKey(nameof(ReciepeId))]
         public int ReciepeId { get; set; }

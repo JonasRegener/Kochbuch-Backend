@@ -11,5 +11,7 @@ namespace Kochbuch_Backend.Data
 
         public virtual IList<Ingredient> Ingredients { get; set; }
 
+        public string ImagePath { get; set; }
+
     }
 }
