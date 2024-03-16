@@ -34,6 +34,7 @@ builder.Services.AddAutoMapper(typeof(MapperConfig));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IReciepesRepository, ReciepesRepository>();
 builder.Services.AddScoped<IIngredientsRepository, IngrendientsRepository>();
+builder.Services.AddScoped<IAuthManager, AuthManager>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

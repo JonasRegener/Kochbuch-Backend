@@ -2,6 +2,7 @@
 using Kochbuch_Backend.Data;
 using Kochbuch_Backend.Models.Ingredient;
 using Kochbuch_Backend.Models.Reciepe;
+using Kochbuch_Backend.Models.User;
 
 namespace Kochbuch_Backend.Configurations
 {
@@ -17,6 +18,8 @@ namespace Kochbuch_Backend.Configurations
             CreateMap<Ingredient, CreateReciepeDto>().ReverseMap();
             CreateMap<Ingredient, UpdateIngredientDto>().ReverseMap();
             CreateMap<Ingredient, IngredientDto>().ReverseMap();
+
+            CreateMap<UserDto, User>().ReverseMap();
         }
     }
 }
