@@ -7,5 +7,7 @@ namespace Kochbuch_Backend.Contracts
     public interface IAuthManager
     {
         Task<IEnumerable<IdentityError>> Register(UserDto userDto);
+
+        Task<AuthResponeDto> Login(UserLoginDto userDto);
     }
 }

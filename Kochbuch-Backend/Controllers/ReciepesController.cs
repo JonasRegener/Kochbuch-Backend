@@ -9,12 +9,14 @@ using Kochbuch_Backend.Data;
 using Kochbuch_Backend.Models.Reciepe;
 using AutoMapper;
 using Kochbuch_Backend.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Kochbuch_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ReciepesController : ControllerBase
     {
         private readonly IReciepesRepository _reciepesRepository;
@@ -109,6 +111,7 @@ namespace Kochbuch_Backend.Controllers
 
         // DELETE: api/Reciepes/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteReciepe(int id)
         {
             var reciepe = await _reciepesRepository.GetAsync(id);

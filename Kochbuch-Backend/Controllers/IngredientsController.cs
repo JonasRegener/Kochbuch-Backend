@@ -10,11 +10,13 @@ using Kochbuch_Backend.Contracts;
 using Kochbuch_Backend.Repository;
 using AutoMapper;
 using Kochbuch_Backend.Models.Ingredient;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kochbuch_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class IngredientsController : ControllerBase
     {
         private readonly IIngredientsRepository _ingredientsRepository;
